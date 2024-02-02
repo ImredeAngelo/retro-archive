@@ -1,23 +1,8 @@
-FROM nginx:1.25.3-alpine
-EXPOSE 80
-
-COPY start.sh /usr/bin/start.sh
-RUN apk --no-cache update
-
-# Set up torrent seeding (transmission)
-RUN apk add transmission transmission-cli transmission-daemon
-COPY ./config/transmission.json /etc/transmission-daemon/settings.json
-COPY ./games /var/lib/transmission-daemon/downloads
-
-EXPOSE 51413
-
-# Make torrents
-WORKDIR /var/lib/transmission-daemon/downloads
-COPY ./make-torrents.sh ./
-RUN ./make-torrents.sh
-
 # Set up tracker (opentracker)
+FROM alpine:3.18 AS tracker
+
 WORKDIR /var/lib
+RUN apk --no-cache update
 RUN apk add cvs git g++ make curl-dev
 RUN cvs -d :pserver:cvs@cvs.fefe.de:/cvs -z9 co libowfat
 RUN git clone git://erdgeist.org/opentracker
@@ -28,19 +13,32 @@ RUN make
 
 EXPOSE 6969
 
-# Set up reverse proxy (Nginx)
-COPY ./config/nginx.conf /etc/nginx
 
-# Set up website
-# WORKDIR /usr/app
-# ln -s /var/lib/transmission-daemon /usr/app/src/games
-# COPY src .
-# COPY public .
-# COPY package.json .
-# COPY index.html .
-# COPY vite.config.js .
-# RUN yarn
-# RUN 
+# Set up bittorrent client and reverse proxy
+FROM nginx:1.25.3-alpine AS server
 
-# Start
-CMD [ "/usr/bin/start.sh" ]
+# Get tracker from previous stage
+COPY --from=tracker /var/lib/opentracker /var/lib/opentracker
+
+# Set up torrent seeding (transmission)
+RUN apk --no-cache update
+RUN apk add transmission transmission-cli transmission-daemon
+COPY config/transmission.json /etc/transmission-daemon/settings.json
+RUN mkdir -p /var/lib/transmission-daemon/downloads
+
+EXPOSE 51413
+
+# Start services
+COPY scripts/torrent.sh /usr/local/bin/torrent.sh
+COPY scripts/start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/torrent.sh
+RUN chmod +x /usr/local/bin/start.sh
+WORKDIR /var/lib/opentracker
+ENTRYPOINT [ "start.sh" ]
+
+# Frequently edited files
+FROM server
+
+# Configure Nginx
+# COPY ./config/nginx.conf /etc/nginx
+EXPOSE 80

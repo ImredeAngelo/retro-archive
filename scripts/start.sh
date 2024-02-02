@@ -1,4 +1,4 @@
 #!/bin/sh
 transmission-daemon --config-dir /etc/transmission-daemon/
-transmission-remote -a /var/lib/transmission-daemon/downloads*.torrent
+(cd /var/lib/transmission-daemon/downloads ; echo "$PWD" && sh /usr/local/bin/torrent.sh)
 ./opentracker
