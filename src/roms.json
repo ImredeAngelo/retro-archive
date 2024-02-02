@@ -1,0 +1,20 @@
+[
+	{
+		"name":"Shadow of the Colossus",
+		"serial":"SCUS-97472",
+		"description":"A",
+		"year":2005,
+		"regions":[
+			{ "PAL":"English (US)" }
+		]
+	},
+	{
+		"name":"Sly 3 - Honor Among Thieves",
+		"serial":"SCUS-97464",
+		"description":"B",
+		"year":2005,
+		"regions":[
+			{ "PAL":"English (US)" }
+		]
+	}
+]

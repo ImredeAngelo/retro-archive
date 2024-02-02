@@ -1,0 +1,33 @@
+.wrapper {
+	grid-template-columns: repeat(4, 1fr);
+	display: grid;
+	
+	h1 {
+		grid-column: span 3;
+	}
+}
+
+.cover {
+	grid-column: span 1;
+	grid-row: span 2;
+	display: block;
+	padding: 1rem;
+}
+
+.image {
+	display: inline;
+	width: 100%;
+
+	/* border-radius: .45rem;
+	border: 1px solid #ddd; */
+}
+
+.card {
+	grid-column: span 3;
+}
+
+.list {
+	display: flex;
+	justify-content: center;
+	gap: 0.45rem;
+}
