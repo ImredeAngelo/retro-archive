@@ -1,0 +1,3 @@
+[submodule "vendors/opentracker"]
+	path = vendors/opentracker
+	url = git://erdgeist.org/opentracker
