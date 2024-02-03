@@ -18,7 +18,12 @@ EXPOSE 6969
 
 # =======
 # Set up bittorrent client and reverse proxy
-FROM nginx:1.25.3-alpine AS server
+FROM nginx:1.25.3-alpine AS base
+
+# Configure Nginx
+WORKDIR /etc/nginx
+COPY ./config/app.conf ./conf.d/default.conf
+EXPOSE 80
 
 # Set up torrent seeding (transmission)
 RUN apk --no-cache update
@@ -34,6 +39,7 @@ COPY scripts/start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/torrent.sh
 RUN chmod +x /usr/local/bin/start.sh
 ENTRYPOINT [ "start.sh" ]
+
 
 
 
@@ -59,13 +65,8 @@ RUN yarn build
 
 # =======
 # Final build stage
-FROM server
+FROM base
 
 # Get tracker and web app from previous stages
 COPY --from=tracker /var/lib/opentracker /var/lib/opentracker
 COPY --from=production /usr/app/dist /etc/nginx/data
-
-# Configure Nginx
-WORKDIR /etc/nginx
-COPY ./config/app.conf ./conf.d/default.conf
-EXPOSE 80
