@@ -10,7 +10,7 @@ This site was created to gain experience with Peer-to-Peer (P2P) systems, specif
 3. Profit
 
 ## Structure
-The server runs [OpenTracker](https://erdgeist.org/arts/software/opentracker/) as a closed private tracker, and [Transmission](https://transmissionbt.com/) as a BitTorrent client. The client is configured to be as altruistic as possible, and always seed. This combination ensures atleast 1 peer is seeding any game found on the website at any time, and that all peers are easily discovered by new clients. 
+The server runs [OpenTracker](https://erdgeist.org/arts/software/opentracker/) as a closed tracker, and [Transmission](https://transmissionbt.com/) as a BitTorrent client. The client is configured to be as altruistic as possible, and always seed. This combination ensures atleast 1 peer is seeding any game found on the website at any time, and that all peers are easily discovered by new clients. 
 
 The web site is a simple Preact web app, using the entries from `/public/roms/index.json` to display games. In a production environment this would likely be implemented as a database. The site is served by Nginx, which also acts a reverse proxy for the other services.
 

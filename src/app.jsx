@@ -1,16 +1,14 @@
-import { useState } from 'preact/hooks'
-import preactLogo from './assets/preact.svg'
-import viteLogo from '/vite.svg'
 import './app.css'
 import { Game } from './components/game'
 
 export function App() {
-  	const [count, setCount] = useState(0)
-
 	return (
 		<>
-		
-		<Game/>
+			<Game/>
+			<p>Hello world!</p>
+			<p class="read-the-docs">
+				Click on the Vite and Preact logos to learn more
+			</p> 
 		</>
 	)
 }

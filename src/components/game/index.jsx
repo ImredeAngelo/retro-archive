@@ -8,7 +8,9 @@ export function Game(props) {
 	// P2P - BitTorrent
 	const port = 1337
 	const tracker = 'tracker.localhost'
-	const magnetURI = `magnet:?xt=urn:btih:39bcbcbc273551854105d3e6757254c55d920a5c&dn=${serial}.iso&tr=http%3A%2F%2F${tracker}%3A${port}%2Fannounce`
+	const filename = serial + '.iso.gz'
+	const hash = '4f7367e1b693ac9e253c627708431ca1f5947e30'
+	const magnetURI = `magnet:?xt=urn:btih:${hash}&dn=${filename}&tr=http%3A%2F%2F${tracker}%3A${port}%2Fannounce`
 
 	return (
 		<div class="wrapper">
@@ -23,7 +25,7 @@ export function Game(props) {
 				</button> */}
 				<div class="list">
 					<button>
-						<a href={`${resource}/${serial}.iso.gz`} download="Shadow of the Colossus (USA).iso">
+						<a href={`${resource}/${filename}`} download="Shadow of the Colossus (USA).iso">
 							Download with Browser
 						</a>
 					</button>
@@ -33,7 +35,7 @@ export function Game(props) {
 						</a>
 					</button>
 					<button>
-						<a href={`${resource}/${serial}.iso.gz.torrent`} download={`${serial}.torrent`}>
+						<a href={`${resource}/${filename}.torrent`} download={`Shadow of the Colossus (USA).torrent`}>
 							Download torrent file
 						</a>
 					</button>
